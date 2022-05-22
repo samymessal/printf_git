@@ -6,45 +6,49 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:07:04 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/18 20:22:18 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/20 18:19:08 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-static void	ft_symbol(char c, t_var x)
+static int	ft_symbol(char c, t_var x)
 {
 	int	t;
+	int	len;
 
 	t = 0;
+	len = 0;
 	if (c == 'c' || c == '%')
-		ft_putchar_fd(x.d, 1);
+		len += ft_putchar_fd(x.d, 1);
 	else if (c == 's')
-		ft_putstr_fd(x.s, 1);
+		len += ft_putstr_fd(x.s, 1);
 	else if (c == 'd' || c == 'i')
-		ft_putstr_fd(ft_itoa(x.d), 1);
+		len += ft_putnbr_fd(x.d, 1);
 	else if (c == 'p')
 	{
-		t = (int)x.s;
-		write(1, "0x10", 4);
-		ft_putnbr_base(t, "0123456789abcdef");
+		t = (long int)x.s;
+		write(1, "0x", 2);
+		len += ft_putnbr_base(t, "0123456789abcdef");
 	}
 	else if (c == 'u')
-		ft_putstr_fd(ft_itoa(x.u), 1);
+		len += ft_putnbr_fd(x.u, 1);
 	else if (c == 'x')
-		ft_putnbr_base(x.d, "0123456789abcdef");
+		len += ft_putnbr_base(x.d, "0123456789abcdef");
 	else if (c == 'X')
-		ft_putnbr_base(x.d, "0123456789ABCDEF");
-	return ;
+		len += ft_putnbr_base(x.d, "0123456789ABCDEF");
+	return (len);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	args;
 	int		i;
+	int		len;
 	t_var	typ;
 
 	i = 0;
+	len = 0;
 	va_start(args, str);
 	while (str[i])
 	{
@@ -59,25 +63,29 @@ int	ft_printf(const char *str, ...)
 				typ.s = va_arg(args, char *);
 			else if (str[i + 1] == 'u')
 				typ.u = va_arg(args, unsigned int);
-			if (str[i + 1] == '%')
-				write(1, "%", 1);
-			else
-				ft_symbol(str[++i], typ);
+		//	else if (str[i + 1] == '%')
+		//		write(1, "%", 1);
+			if (str[i + 1] != '%')
+				len += ft_symbol(str[++i], typ);
 			i++;
 		}
-		ft_putchar_fd(str[i], 1);
+		len += ft_putchar_fd(str[i], 1);
 		i++;
 	}
-	return (i);
+	va_end(args);
+	return (len);
 }
 
 int	main()
 {
 	char	*lol = "cocooco|";
-	ft_printf("char: %c \nstring: %s \nint: %d\nunsigned:%u\nhexa:%x\nHEXA:%X\nPourcent:%%\nPoint: %p\n",'A',"lol",12345487, -4578, 58455, 58455, lol);
+	int y = ft_printf("char: %c \nstring: %s \nint: %d\nunsigned:%u\nhexa:%x\nHEXA:%X\nPourcent:%%\nPoint: %p\n",'A',"lol",12345487, -4578, 58455, 58455, lol);
 
 
-	printf("\nORIGINAL\nchar: %c \nstring: %s\nint:%d\nunsigned:%u\nhexa:%x\nHEXA: %X\nPourcent:%%\nPoint: %p",'A',"lol", 12345487, -4578, 58455, 58455, lol);
-	
-	ft_printf("\n%s",lol);
+
+
+
+	int x = printf("\nORIGINAL\nchar: %c \nstring: %s\nint:%d\nunsigned:%u\nhexa:%x\nHEXA: %X\nPourcent:%%\nPoint: %p",'A',"lol", 12345487, -4578, 58455, 58455, lol);
+	printf("\n%d\n%d",x , y);
 }
+

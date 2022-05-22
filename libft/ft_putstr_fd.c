@@ -6,13 +6,13 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:02:06 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/12 15:07:09 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/20 18:07:19 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
@@ -22,4 +22,5 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 19:57:41 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/18 20:15:17 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/20 18:17:00 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,25 @@ static int	ft_check_conditions(char *base)
 		return (1);
 }
 
-void	ft_putnbr_base(int nbr, char *base)
+int	ft_putnbr_base(int nbr, char *base)
 {
 	long long int	len_base;
 	unsigned char	val;
 	long long int	nbr_long;
+	int				len;
 
 	len_base = 0;
+	len = 0;
 	nbr_long = nbr;
 	if (!ft_check_conditions(base))
-		return ;
+		return (0);
 	while (base[len_base])
 		len_base++;
 	if (nbr_long < 0)
 	{
 		write(1, "-", 1);
 		nbr_long *= -1;
+		len++;
 	}
 	if (nbr_long >= len_base)
 	{
@@ -75,6 +78,8 @@ void	ft_putnbr_base(int nbr, char *base)
 	else
 	{
 		val = base[nbr_long];
+		len++;
 		write(1, &val, 1);
 	}
+	return (len);
 }
