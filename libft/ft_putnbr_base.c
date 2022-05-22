@@ -6,7 +6,7 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 19:57:41 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/20 18:17:00 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/22 19:16:54 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ static int	ft_check_conditions(char *base)
 		return (1);
 }
 
-int	ft_putnbr_base(int nbr, char *base)
+int	ft_putnbr_base(long long int nbr, char *base)
 {
 	long long int	len_base;
 	unsigned char	val;
 	long long int	nbr_long;
-	int				len;
+	long long int	len;
 
 	len_base = 0;
 	len = 0;
@@ -82,4 +82,9 @@ int	ft_putnbr_base(int nbr, char *base)
 		write(1, &val, 1);
 	}
 	return (len);
+}
+
+int	main()
+{
+	ft_putnbr_base(55555566885555555, "0123456789abcdef");
 }

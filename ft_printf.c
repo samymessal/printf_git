@@ -6,7 +6,7 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:07:04 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/20 18:19:08 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/22 19:20:07 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_symbol(char c, t_var x)
 {
-	int	t;
+	unsigned long long int	t;
 	int	len;
 
 	t = 0;
@@ -27,7 +27,7 @@ static int	ft_symbol(char c, t_var x)
 		len += ft_putnbr_fd(x.d, 1);
 	else if (c == 'p')
 	{
-		t = (long int)x.s;
+		t = (unsigned long long int)x.l;
 		write(1, "0x", 2);
 		len += ft_putnbr_base(t, "0123456789abcdef");
 	}
@@ -58,7 +58,7 @@ int	ft_printf(const char *str, ...)
 				|| str[i + 1] == 'x' || str[i + 1] == 'X')
 				typ.d = va_arg(args, int);
 			else if (str[i + 1] == 'p')
-				typ.s = va_arg(args, char *);
+				typ.l = va_arg(args, long long int);
 			else if (str[i + 1] == 's')
 				typ.s = va_arg(args, char *);
 			else if (str[i + 1] == 'u')
@@ -75,7 +75,7 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
-
+/*
 int	main()
 {
 	char	*lol = "cocooco|";
@@ -88,4 +88,4 @@ int	main()
 	int x = printf("\nORIGINAL\nchar: %c \nstring: %s\nint:%d\nunsigned:%u\nhexa:%x\nHEXA: %X\nPourcent:%%\nPoint: %p",'A',"lol", 12345487, -4578, 58455, 58455, lol);
 	printf("\n%d\n%d",x , y);
 }
-
+*/

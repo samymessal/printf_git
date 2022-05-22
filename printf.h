@@ -6,7 +6,7 @@
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:01:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/18 19:22:08 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/22 18:28:23 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include "libft/libft.h"
+# include <limits.h>
 
 int	ft_printf(const char *, ...);
 
@@ -26,6 +27,7 @@ typedef struct s_var
 	int				d;
 	char			*s;
 	unsigned int	u;
+	long long int	l;
 }			t_var;
 
 #endif
