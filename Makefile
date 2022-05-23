@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smessal <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: smessal <smessal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 12:00:58 by smessal           #+#    #+#              #
-#    Updated: 2022/05/18 12:01:20 by smessal          ###   ########.fr        #
+#    Updated: 2022/05/23 17:33:45 by smessal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ NAME				=	libftprintf.a
 
 all:				$(NAME)
 
-$(NAME):	$(OBJ)
+$(NAME):	$(OBJS) #ft_printf.
 			$(MAKE) all -C libft
 			cp libft/libft.a $(NAME)
-			ar rcs $(NAME) $(OBJ)
+			ar rcs $(NAME) $(OBJS)
 
 clean:		
 			$(MAKE) clean -C ./libft
-			$(RM) $(OBJ)
+			$(RM) $(OBJS)
 
 fclean:		clean
 			$(MAKE) fclean -C ./libft

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:01:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/22 18:28:23 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/23 17:27:34 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft/libft.h"
 # include <limits.h>
 
-int	ft_printf(const char *, ...);
+int	ft_printf(const char *str, ...);
 
 typedef struct s_var
 {

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 12:07:04 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/23 18:33:56 by smessal          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_printf.h"
 
 static int	ft_symbol(char c, t_var x)
@@ -78,23 +66,18 @@ int	ft_printf(const char *str, ...)
 			i++;
 		}
 		if (str[i])
-			len += ft_putchar_fd(str[i], 1);
+            len += ft_putchar_fd(str[i], 1);
 		i++;
 	}
 	va_end(args);
 	return (len);
 }
-/*
+
 int	main()
 {
-	char	*lol = "cocooco|";
-	int y = ft_printf("char: %c \nstring: %s \nint: %d\nunsigned:%u\nhexa:%x\nHEXA:%X\nPourcent:%%\nPoint: %p\n",'A',"lol",12345487, -4578, 58455, 58455, lol);
+    int x = printf("%c\n", '0');
+    printf("%d", x);
 
-
-
-
-
-	int x = printf("\nORIGINAL\nchar: %c \nstring: %s\nint:%d\nunsigned:%u\nhexa:%x\nHEXA: %X\nPourcent:%%\nPoint: %p",'A',"lol", 12345487, -4578, 58455, 58455, lol);
-	printf("\n%d\n%d",x , y);
+    int y = ft_printf("%c", '0');
+    ft_printf("%d", y);
 }
-*/
