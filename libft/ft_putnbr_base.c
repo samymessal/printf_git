@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+# include "libft.h"
 
 static int	ft_check_duplicates(char *tab, int size)
 {
@@ -50,15 +50,15 @@ static int	ft_check_conditions(char *base)
 		return (1);
 }
 
+static int	len;
+
 int	ft_putnbr_base(long long int nbr, char *base)
 {
 	long long int	len_base;
 	unsigned char	val;
 	long long int	nbr_long;
-	long long int	len;
 
 	len_base = 0;
-	len = 0;
 	nbr_long = nbr;
 	if (!ft_check_conditions(base))
 		return (0);
@@ -80,11 +80,7 @@ int	ft_putnbr_base(long long int nbr, char *base)
 		val = base[nbr_long];
 		len++;
 		write(1, &val, 1);
+		return(len);
 	}
-	return (len);
-}
-
-int	main()
-{
-	ft_putnbr_base(55555566885555555, "0123456789abcdef");
+	return (0);
 }

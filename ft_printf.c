@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
 static int	ft_symbol(char c, t_var x)
 {
@@ -20,25 +20,35 @@ static int	ft_symbol(char c, t_var x)
 	t = 0;
 	len = 0;
 	if (c == 'c' || c == '%')
-		len += ft_putchar_fd(x.d, 1);
+		len = ft_putchar_fd(x.d, 1);
 	else if (c == 's')
-		len += ft_putstr_fd(x.s, 1);
+		len = ft_putstr_fd(x.s, 1);
 	else if (c == 'd' || c == 'i')
-		len += ft_putnbr_fd(x.d, 1);
+		len = ft_putnbr_fd(x.d, 1);
 	else if (c == 'p')
 	{
-		t = (unsigned long long int)x.l;
-		write(1, "0x", 2);
-		len += ft_putnbr_base(t, "0123456789abcdef");
+		if (x.l)
+		{
+			t = (unsigned long long int)x.l;
+			write(1, "0x", 2);
+			len = ft_putnbr_base(t, "0123456789abcdef") + 2;
+		}
+		else
+		{
+			write(1, "(nil)", 5);
+			len = 5;
+		}
 	}
 	else if (c == 'u')
-		len += ft_putnbr_fd(x.u, 1);
+		len = ft_putnbr_fd(x.u, 1);
 	else if (c == 'x')
-		len += ft_putnbr_base(x.d, "0123456789abcdef");
+		len = ft_putnbr_base(x.d, "0123456789abcdef");
 	else if (c == 'X')
-		len += ft_putnbr_base(x.d, "0123456789ABCDEF");
+		len = ft_putnbr_base(x.d, "0123456789ABCDEF");
 	return (len);
 }
+
+static int len;
 
 int	ft_printf(const char *str, ...)
 {
@@ -48,7 +58,6 @@ int	ft_printf(const char *str, ...)
 	t_var	typ;
 
 	i = 0;
-	len = 0;
 	va_start(args, str);
 	while (str[i])
 	{

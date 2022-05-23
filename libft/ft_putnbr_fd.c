@@ -12,31 +12,35 @@
 
 #include "libft.h"
 
-int	ft_putnbr_fd(long int n, int fd)
-{
-	int	len;
+static int	len;
 
-	len = 0;
-	if (n == -2147483648)
+int	ft_putnbr_fd(int n, int fd)
+{
+
+	long int x;
+
+	x = n;
+	if (x == -2147483648)
 	{
 		write(fd, "-2147483648", 11);
 		return (11);
 	}
-	if (n < 0)
+	if (x < 0)
 	{
-		n *= -1;
+		x *= -1;
 		write(fd, "-", 1);
 		len++;
 	}
-	if (n > 9)
+	if (x > 9)
 	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
+		ft_putnbr_fd(x / 10, fd);
+		ft_putnbr_fd(x % 10, fd);
 	}
 	else
 	{
-		ft_putchar_fd(n + 48, fd);
+		ft_putchar_fd(x + 48, fd);
 		len++;
+		return (len);
 	}
-	return (len);
+	return (0);
 }

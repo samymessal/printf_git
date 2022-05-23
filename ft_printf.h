@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smessal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 15:02:06 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/22 18:45:26 by smessal          ###   ########.fr       */
+/*   Created: 2022/05/18 12:01:51 by smessal           #+#    #+#             */
+/*   Updated: 2022/05/22 18:28:23 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-int	ft_putstr_fd(char *s, int fd)
+# include <stdio.h>
+# include <unistd.h>
+# include <stdarg.h>
+# include "libft/libft.h"
+# include <limits.h>
+
+int	ft_printf(const char *, ...);
+
+typedef struct s_var
 {
-	int	i;
+	char			a;
+	int				d;
+	char			*s;
+	unsigned int	u;
+	long long int	l;
+}			t_var;
 
-	i = 0;
-	if (!s)
-	{
-		write(1, "(null)", 6);
-		return (6);
-	}
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	return (i);
-}
+#endif
