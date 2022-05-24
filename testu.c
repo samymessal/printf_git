@@ -8,18 +8,18 @@ static int	ft_symbol(char c, t_var x)
 	t = 0;
 	len = 0;
 	if (c == 'c' || c == '%')
-		len = ft_putchar_fd(x.d, 1);
+		len += ft_putchar_fd(x.d, 1);
 	else if (c == 's')
-		len = ft_putstr_fd(x.s, 1);
+		len += ft_putstr_fd(x.s, 1);
 	else if (c == 'd' || c == 'i')
-		len = ft_putnbr_fd(x.d, 1);
+		ft_putnbr_fd(x.d, 1);
 	else if (c == 'p')
 	{
 		if (x.l)
 		{
 			t = (unsigned long long int)x.l;
 			write(1, "0x", 2);
-			len = ft_putnbr_base(t, "0123456789abcdef") + 2;
+			ft_putnbr_base(t, "0123456789abcdef") + 2;
 		}
 		else
 		{
@@ -28,11 +28,11 @@ static int	ft_symbol(char c, t_var x)
 		}
 	}
 	else if (c == 'u')
-		len = ft_putnbr_fd(x.u, 1);
+		ft_putnbr_fd(x.u, 1);
 	else if (c == 'x')
-		len = ft_putnbr_base(x.d, "0123456789abcdef");
+		ft_putnbr_base(x.d, "0123456789abcdef");
 	else if (c == 'X')
-		len = ft_putnbr_base(x.d, "0123456789ABCDEF");
+		ft_putnbr_base(x.d, "0123456789ABCDEF");
 	return (len);
 }
 

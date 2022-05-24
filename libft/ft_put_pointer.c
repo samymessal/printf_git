@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_put_pointer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 15:05:45 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/24 17:44:10 by smessal          ###   ########.fr       */
+/*   Created: 2022/05/24 17:19:46 by smessal           #+#    #+#             */
+/*   Updated: 2022/05/24 17:36:12 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_put_pointer(unsigned long long int nbr, char *base)
 {
-	long int x;
+	unsigned long long int	len_base;
+	unsigned char			val;
 
-	x = n;
-	if (x == -2147483648)
+	len_base = 0;
+	while (base[len_base])
+		len_base++;
+	if (nbr >= len_base)
 	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	if (x < 0)
-	{
-		x *= -1;
-		write(fd, "-", 1);
-	}
-	if (x > 9)
-	{
-		ft_putnbr_fd(x / 10, fd);
-		ft_putnbr_fd(x % 10, fd);
+		ft_put_pointer(nbr / len_base, base);
+		ft_put_pointer(nbr % len_base, base);
 	}
 	else
 	{
-		ft_putchar_fd(x + 48, fd);
+		val = base[nbr];
+		write(1, &val, 1);
 	}
 	return ;
 }

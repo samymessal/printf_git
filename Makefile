@@ -6,11 +6,11 @@
 #    By: smessal <smessal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 12:00:58 by smessal           #+#    #+#              #
-#    Updated: 2022/05/23 17:33:45 by smessal          ###   ########.fr        #
+#    Updated: 2022/05/24 17:34:43 by smessal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS				=	ft_printf.c
+SRCS				=	ft_printf.c ft_lens.c
 
 OBJS				=	$(SRCS:.c=.o)
 
