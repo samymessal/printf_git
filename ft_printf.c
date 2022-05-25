@@ -6,18 +6,34 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:07:04 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/24 20:58:10 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/25 11:41:58 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static int	ft_nonvalid(char c)
+{
+	char	*test;
+	int		i;
+
+	i = 0;
+	test = "csdipuxX%";
+	while (test[i])
+	{
+		if (test[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static int	ft_symbol(char c, t_var x)
 {
 	int	len;
 
 	len = 0;
-	if (c == 'c' || c == '%')
+	if (c == 'c')
 		len += ft_putchar_fd(x.d, 1);
 	else if (c == 's')
 		len += ft_putstr_fd(x.s, 1);
@@ -70,7 +86,7 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (str[i])
 	{
-		if (str[i] == '%' && str[i + 1])
+		if (str[i] == '%' && str[i + 1] && ft_nonvalid(str[i + 1]))
 		{
 			if (str[i + 1] == 'c' || str[i + 1] == 'd' || str[i + 1] == 'i')
 				typ.d = va_arg(args, int);
@@ -82,32 +98,247 @@ int	ft_printf(const char *str, ...)
 				typ.u = va_arg(args, unsigned int);
 			else if (str[i + 1] == 'x' || str[i + 1] == 'X')
 				typ.u = va_arg(args, unsigned int);
-			if (str[i + 1] != '%')
-				len += ft_symbol(str[++i], typ);
-			i++;
+			else if (str[i + 1] == '%')
+				len += ft_putchar_fd('%', 1);
+			len += ft_symbol(str[++i], typ);
 		}
-		if (str[i])
-			len += ft_putchar_fd(str[i++], 1);
+		else
+			len += ft_putchar_fd(str[i], 1);
+		i++;
 	}
 	va_end(args);
 	return (len);
 }
 
-// int	main()
+
+// int	main(void)
 // {
-// 	char	*lol = 0;
-// 	int y = ft_printf("char: %c \nstring: %s \nint: %d\nunsigned:%u\nhexa:%x\nHEXA:%X\nPourcent:%%\nPoint: %p\n",'A',"lol",12345487, -4578, 58455, 58455, lol);
-
-
-
-
-
-// 	int x = printf("\nORIGINAL\nchar: %c \nstring: %s\nint:%d\nunsigned:%u\nhexa:%x\nHEXA: %X\nPourcent:%%\nPoint: %p",'A',"lol", 12345487, -4578, 58455, 58455, lol);
-// 	printf("\n%d\n%d",x , y);
+// 	ft_printf(" %%%%%d ", 42);
+// 	//printf(" %s %% %d ", "lol", 42);
 // }
 
 // int	main(void)
 // {
-// 	ft_printf(" %% %d ", 42);
-// 	//printf(" %%%%d ", 42);
+// 	int		ptr = 42;
+// 	void	*second_ptr = &ptr;
+// 	int 	my_function_return = 0;
+// 	int 	real_function_return = 0;
+	
+// 	// tests without %
+// 	printf("\n----------   without %%   ----------\n\n");
+	
+// 	my_function_return = ft_printf("my ft_printf : Hello\n");
+// 	real_function_return = printf("real printf  : Hello\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+		
+// 	my_function_return = ft_printf("my ft_printf : Hello World!\n");
+// 	real_function_return = printf("real printf  : Hello World!\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %c
+// 	printf("\n----------   %%c   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : %c\n", 'c');
+// 	real_function_return = printf("real printf  : %c\n", 'c');
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : %c\n", 'A');
+// 	real_function_return = printf("real printf  : %c\n", 'A');
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : %c%c%c\n", 'a', 'b', 'c');
+// 	real_function_return = printf("real printf  : %c%c%c\n", 'a', 'b', 'c');
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %s
+// 	printf("\n----------   %%s   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : %s\n", "Hello World!");
+// 	real_function_return = printf("real printf  : %s\n", "Hello World!");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : NULL %s NULL\n", NULL);
+// 	real_function_return = printf("real printf  : NULL %s NULL\n", NULL);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : %s\n", "AbCdEf");
+// 	real_function_return = printf("real printf  : %s\n", "AbCdEf");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %p
+// 	printf("\n----------   %%p   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : [%p, %p, %p]\n", &ptr, second_ptr, &second_ptr);
+// 	real_function_return = printf("real printf  : [%p, %p, %p]\n", &ptr, second_ptr, &second_ptr);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : [%p / %p]\n", LONG_MIN, LONG_MAX);
+// 	real_function_return = printf("real printf  : [%p / %p]\n", LONG_MIN, LONG_MAX);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : [%p / %p]\n", 0, 0);
+// 	real_function_return = printf("real printf  : [%p / %p]\n", 0, 0);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %d
+// 	printf("\n----------   %%d   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : [%d, %d, %d, %d]\n", 10 , -10, 42, 0);
+// 	real_function_return = printf("real printf  : [%d, %d, %d, %d]\n", 10 , -10, 42, 0);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %i
+// 	printf("\n----------   %%i   ----------\n\n");
+	
+// 	my_function_return = ft_printf("my ft_printf : [%i, %i, %i]\n", (int)-2147483648, (int)2147483647, 0);
+// 	real_function_return = printf("real printf  : [%i, %i, %i]\n", (int)-2147483648, (int)2147483647, 0);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %u
+// 	printf("\n----------   %%u   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : [%u, %u]\n", (unsigned int)10, (unsigned int)0);
+// 	real_function_return = printf("real printf  : [%u, %u]\n", (unsigned int)10, (unsigned int)0);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : Hello %u world %u\n", 123, 789);
+// 	real_function_return = printf("real printf  : Hello %u world %u\n", 123, 789);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+	
+// 	my_function_return = ft_printf("my ft_printf : Hello %u world %u\n", -123, 789);
+// 	real_function_return = printf("real printf  : Hello %u world %u\n", -123, 789);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+		
+// 	my_function_return = ft_printf("my ft_printf : %u \n", -10);
+// 	real_function_return = printf("real printf  : %u \n", -10);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %x
+// 	printf("\n----------   %%x   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : [%x, %x, %x, %x, %x]\n", (int)-2147483648, (int)2147483647, 0, -42, 42);
+// 	real_function_return = printf("real printf  : [%x, %x, %x, %x, %x]\n", (int)-2147483648, (int)2147483647, 0, -42, 42);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %X
+// 	printf("\n----------   %%X   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : [%X, %X, %X, %X, %X]\n", (int)-2147483648, (int)2147483647, 0, -42, 42);
+// 	real_function_return = printf("real printf  : [%X, %X, %X, %X, %X]\n", (int)-2147483648, (int)2147483647, 0, -42, 42);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests %%
+// 	printf("\n----------   %%%%   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : %%\n");
+// 	real_function_return = printf("real printf  : %%\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : Hello %%\n");
+// 	real_function_return = printf("real printf  : Hello %%\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests % mixed
+// 	printf("\n----------   %% mixed   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : Hello %i world %d\n", -123, 789);
+// 	real_function_return = printf("real printf  : Hello %i world %d\n", -123, 789);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : Hello %x world %X\n", 123456, -9807);
+// 	real_function_return = printf("real printf  : Hello %x world %X\n", 123456, -9807);
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : %c%%%s\n", 'c', "hello");
+// 	real_function_return = printf("real printf  : %c%%%s\n", 'c', "hello");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	my_function_return = ft_printf("my ft_printf : [%%%%%%c%%%%%%]\n");
+// 	real_function_return = printf("real printf  : [%%%%%%c%%%%%%]\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+
+// 	// tests unvalid %
+// 	printf("\n----------   unvalid %%   ----------\n\n");
+
+// 	my_function_return = ft_printf("my ft_printf : Hello %y\n");
+// 	real_function_return = printf("real printf  : Hello %y\n");
+// 	if (real_function_return == my_function_return)
+// 		printf("\033[1;32mReturn is OK : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
+// 	else
+// 		printf("\033[1;31mReturn is KO : [%d,%d]\033[0m\n\n", my_function_return, real_function_return);
 // }

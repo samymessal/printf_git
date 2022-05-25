@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:59:37 by smessal           #+#    #+#             */
-/*   Updated: 2022/05/23 18:16:30 by smessal          ###   ########.fr       */
+/*   Updated: 2022/05/25 11:16:42 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_putchar_fd(char c, int fd)
 {
 	if (fd < 1)
 		return (0);
-	c = (unsigned char)c;
 	write(fd, &c, 1);
 	return (1);
 }
